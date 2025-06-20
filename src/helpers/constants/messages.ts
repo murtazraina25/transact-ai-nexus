@@ -13,4 +13,11 @@ export const PASSWORD_VALIDATION_MESSAGES = {
   PASSWORD_MISMATCH: 'New password and password confirmation should match',
   NEW_PASSWORD_MAX_LENGTH: 'Password cannot exceed 25 characters',
   NEW_PASSWORD_MIN_LENGTH: 'Password must be at least 8 characters long',
+  NO_SPACES: 'Password cannot contain spaces',
+};
+
+export const ERROR_VALIDATION_MESSAGES = {
+  EMAIL_REQUIRED: 'Email is required',
+  EMAIL_INVALID: 'Enter a valid email address',
+  FIELD_REQUIRED: (fieldName: string) => `${fieldName} is required`,
 };

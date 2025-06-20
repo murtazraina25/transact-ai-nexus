@@ -18,11 +18,13 @@ import OAuthGoogleCallback from "./components/auth/OAuthGoogleCallback";
 import OAuthGithubCallback from "./components/auth/OAuthGithubCallback";
 import OAuthMicrosoftCallback from "./components/auth/OAuthMicrosoftCallback";
 import LoginForm from "./components/auth/LoginForm";
+import Login from "./components/auth/Login";
 
 export const navItems = [
   {
     to: "/",
-    page: <LoginForm />,
+    page: <Login />,
+    // <LoginForm />,
     auth: false
   },
   {
