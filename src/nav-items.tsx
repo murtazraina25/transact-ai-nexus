@@ -108,20 +108,17 @@ export const navItems = [
 {
     to: "/oauth/google/callback",
     page: <OAuthGoogleCallback />,
-    auth: false,
-    roles: []
+    auth: false
   },
   {
     to: "/oauth/github/callback",
     page: <OAuthGithubCallback/>,
-    auth: false,
-    roles: []
+    auth: false
   },
   {
     to: "/oauth/microsoft",
     page: <OAuthMicrosoftCallback />,
-    auth: false,
-    roles: []
+    auth: false
   },
   {
     to: "*",
