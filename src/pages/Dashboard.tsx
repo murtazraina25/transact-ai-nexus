@@ -7,6 +7,7 @@ import RecentTransactions from '@/components/dashboard/RecentTransactions';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import AppLayout from '@/components/layout/AppLayout';
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,6 +23,7 @@ const Dashboard = () => {
   }, []);
   
   return (
+    <AppLayout>
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-semibold">Dashboard</h1>
@@ -182,6 +184,7 @@ const Dashboard = () => {
         </TabsContent>
       </Tabs>
     </div>
+    </AppLayout>
   );
 };
 

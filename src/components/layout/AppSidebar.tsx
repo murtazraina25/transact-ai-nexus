@@ -1,9 +1,9 @@
 
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { cn } from '@/lib/utils';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { cn, notifySuccess } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/components/auth/UserAuthContext';
+// import { useAuth } from '@/components/auth/UserAuthContext';
 import { 
   Database, 
   File, 
@@ -21,8 +21,14 @@ import {
   CheckSquare,
   AlertTriangle
 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
+import { removeLoggedInUser, RootState, useAppSelector } from '@/state-management/store';
+import { AuthState } from '@/types/models/auth';
+import { signOut } from '@/services/authentication/auth';
+import { TOASTER_MESSAGES } from '@/helpers/constants/messages';
+
 
 // Nav item type
 interface NavItemProps {
@@ -57,8 +63,33 @@ const NavItem = ({ icon: Icon, label, href, active, collapsed, onClick }: NavIte
 // Main sidebar component
 const AppSidebar = () => {
   const location = useLocation();
-  const { user, profile, logout } = useAuth();
+  // const { user, profile, logout } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const userDetails: AuthState = useAppSelector((state: RootState) => state.auth);
+  const { email, role } = userDetails;
+
+  const clearUserCredentials = () => {
+    removeLoggedInUser();
+    notifySuccess(TOASTER_MESSAGES.LOGOUT_SUCCESS);
+    navigate('/');
+  };
+
+  const logOut = () => {
+    signOut()
+      .then(() => {
+        clearUserCredentials();
+      }).catch((error) => {
+        toast({
+        title: "Error",
+        description: "Failed to log out",
+      });
+        clearUserCredentials();
+      });
+  }
+
+
 
   const navItems = [
     { label: "Dashboard", icon: BarChart, href: "/dashboard" },
@@ -122,18 +153,18 @@ const AppSidebar = () => {
       )}>
         {!collapsed && (
           <div className="flex items-center gap-2">
-            <Avatar className="h-8 w-8">
+            {/* <Avatar className="h-8 w-8">
               <AvatarImage src={profile?.avatar_url} />
               <AvatarFallback>
                 {profile?.full_name?.[0] || profile?.email?.[0] || 'U'}
               </AvatarFallback>
-            </Avatar>
+            </Avatar> */}
             <div className="flex flex-col">
               <span className="text-sm font-medium text-sidebar-foreground truncate max-w-[120px]">
-                {profile?.full_name || profile?.email || 'User'}
+                {email || 'User'}
               </span>
               <span className="text-xs text-sidebar-foreground/70 truncate max-w-[120px]">
-                {profile?.role?.replace('_', ' ') || 'Finance Analyst'}
+                {role || 'Finance Analyst'}
               </span>
             </div>
           </div>
@@ -142,7 +173,7 @@ const AppSidebar = () => {
         <Button 
           variant="ghost" 
           size={collapsed ? "icon" : "sm"}
-          onClick={logout} 
+          onClick={logOut} 
           className="text-sidebar-foreground hover:bg-sidebar-accent/50"
         >
           {collapsed ? <LogOut size={18} /> : <LogOut size={16} className="mr-1" />}

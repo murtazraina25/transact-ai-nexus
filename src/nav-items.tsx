@@ -14,63 +14,112 @@ import Settings from "./pages/Settings";
 import Assistant from "./pages/Assistant";
 import SapData from "./pages/SapData";
 import NotFound from "./pages/NotFound";
+import OAuthGoogleCallback from "./components/auth/OAuthGoogleCallback";
+import OAuthGithubCallback from "./components/auth/OAuthGithubCallback";
+import OAuthMicrosoftCallback from "./components/auth/OAuthMicrosoftCallback";
+import LoginForm from "./components/auth/LoginForm";
 
 export const navItems = [
   {
     to: "/",
-    page: <Index />,
+    page: <LoginForm />,
+    auth: false
   },
   {
     to: "/dashboard",
     page: <Dashboard />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/documents", 
     page: <Documents />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/email-connector",
     page: <EmailConnector />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/upload",
     page: <Upload />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/database",
     page: <Database />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/actions",
     page: <Actions />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/client-recommendations",
     page: <ClientRecommendations />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/financial-analysis", 
     page: <FinancialAnalysis />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/task-automation",
     page: <TaskAutomation />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/compliance-monitoring",
     page: <ComplianceMonitoring />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/settings",
     page: <Settings />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/assistant",
     page: <Assistant />,
+    auth: true,
+    roles: ['user']
   },
   {
     to: "/sap-data",
     page: <SapData />,
+    auth: true,
+    roles: ['user']
+  },
+{
+    to: "/oauth/google/callback",
+    page: <OAuthGoogleCallback />,
+    auth: true,
+    roles: []
+  },
+  {
+    to: "/oauth/github/callback",
+    page: <OAuthGithubCallback/>,
+    auth: true,
+    roles: []
+  },
+  {
+    to: "/oauth/microsoft",
+    page: <OAuthMicrosoftCallback />,
+    auth: true,
+    roles: []
   },
   {
     to: "*",
