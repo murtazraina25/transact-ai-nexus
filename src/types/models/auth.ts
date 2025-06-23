@@ -26,4 +26,5 @@ export interface ResetPasswordData {
 export interface OAuthSignInData {
   provider: string;
   code: string;
+  code_verifier?: string;
 }

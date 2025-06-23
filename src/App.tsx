@@ -28,10 +28,6 @@ const App = () => {
       <Toaster />
       <Sonner />
         <Routes>
-          {/* {navItems.map(({ to, page }) => (
-            <Route key={to} path={to} element={page} />
-          ))} */}
-
           {navItems.map(({ to, page, auth, roles }) => {
             let wrapped = page;
             wrapped = <AuthGuard authenticate={auth}>{wrapped}</AuthGuard>;
@@ -40,13 +36,6 @@ const App = () => {
             }
             return <Route key={to} path={to} element={wrapped} />;
           })}
-          
-          {/* OAuth callback routes */}
-          {/* <Route path="/oauth/callback" element={<OAuthCallback />} /> */}
-          {/* <Route path="/auth/google/callback" element={<GoogleAuthCallback />} /> */}
-          {/* <Route path="/oauth/google/callback" element={<OAuthGoogleCallback />} />
-          <Route path="/oauth/github/callback" element={<OAuthGithubCallback />} />
-          <Route path="/oauth/microsoft/callback" element={<OAuthMicrosoftCallback />} /> */}
         </Routes>
     </TooltipProvider>
   </QueryClientProvider>

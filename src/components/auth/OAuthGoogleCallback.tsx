@@ -8,39 +8,6 @@ const OAuthGoogleCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const code = searchParams.get('code');
-  //     const error = searchParams.get('error');
-  //     const description = searchParams.get('error_description');
-
-  //     if (error) {
-  //       notifyError({ message: `OAuth Error: ${description || error}` });
-  //       return;
-  //     }
-
-  //     if (!code) {
-  //       notifyError({ message: "Missing code in callback URL" });
-  //       return;
-  //     }
-
-  //     try {
-  //       const googlePayload: OAuthSignInData = {
-  //         provider: 'google',
-  //         code,
-  //       };
-
-  //       const response = await oAuthSignIn(googlePayload);
-  //       notifySuccess("Login successful");
-  //       console.log("OAuth login success:", response);
-  //       navigate("/dashboard");
-  //     } catch (err: any) {
-  //       notifyError({ message: "OAuth sign-in failed. Please try again." });
-  //       navigate("/");
-  //     }
-  //   })();
-  // }, [searchParams, navigate]);
-
   useEffect(() => {
     const code = searchParams.get('code');
     const error = searchParams.get('error');

@@ -46,6 +46,8 @@ const OAuthMicrosoftCallback = () => {
     const code = searchParams.get('code');
     const error = searchParams.get('error');
     const description = searchParams.get('error_description');
+    // const codeVerifier = localStorage.get('pkce_code_verifier');
+    const codeVerifier = localStorage.getItem('pkce_code_verifier');
 
     if (error) {
       window.opener?.postMessage({ type: 'oauth-error', error: description }, window.origin);
@@ -56,6 +58,7 @@ const OAuthMicrosoftCallback = () => {
     const microsoftPayload: OAuthSignInData = {
       provider: 'microsoft',
       code: code!,
+      code_verifier: codeVerifier,
     };
 
     oAuthSignIn(microsoftPayload)
@@ -66,6 +69,8 @@ const OAuthMicrosoftCallback = () => {
       .catch((err) => {
         window.opener?.postMessage({ type: 'oauth-error', error: err.message }, window.origin);
         window.close();
+      }).finally(() => {
+        localStorage.removeItem('pkce_code_verifier');
       });
   }, []);
 

@@ -19,6 +19,7 @@ import OAuthGithubCallback from "./components/auth/OAuthGithubCallback";
 import OAuthMicrosoftCallback from "./components/auth/OAuthMicrosoftCallback";
 import LoginForm from "./components/auth/LoginForm";
 import Login from "./components/auth/Login";
+import OAuthGmailCallback from "./components/ingestion/email/OAuthGmailCallback";
 
 export const navItems = [
   {
@@ -119,6 +120,11 @@ export const navItems = [
     to: "/oauth/microsoft/callback",
     page: <OAuthMicrosoftCallback />,
     auth: false
+  },
+  {
+    to: "/oauth/gmail/callback",
+    page: <OAuthGmailCallback/>,
+    auth: true
   },
   {
     to: "*",

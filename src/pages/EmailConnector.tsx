@@ -1,5 +1,5 @@
 
-import EmailConnector from "@/components/ingestion/EmailConnector";
+import EmailConnector from "@/components/ingestion/email/EmailConnector";
 import AppLayout from "@/components/layout/AppLayout";
 
 const EmailConnectorPage = () => {

@@ -54,6 +54,8 @@ const OAuthGithubCallback = () => {
       code: code!,
     };
 
+    alert('GitHub OAuth Payload: ' + JSON.stringify(githubPayload));
+
     oAuthSignIn(githubPayload)
       .then(() => {
         window.opener?.postMessage({ type: 'oauth-success' }, window.origin);
