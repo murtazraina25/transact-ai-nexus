@@ -64,6 +64,23 @@ const Login = () => {
   });
 
   useEffect(() => {
+    const handleOAuthMessage = (event: MessageEvent) => {
+      if (event.origin !== window.origin) return;
+
+      if (event.data?.type === 'oauth-success') {
+        notifySuccess("Login successful");
+        window.location.href = "/dashboard";
+      } else if (event.data?.type === 'oauth-error') {
+        notifyError({ message: event.data.error || "OAuth failed" });
+      }
+    };
+
+    window.addEventListener('message', handleOAuthMessage);
+    return () => window.removeEventListener('message', handleOAuthMessage);
+  }, []);
+
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       setIsAnimated(true);
     }, 100);

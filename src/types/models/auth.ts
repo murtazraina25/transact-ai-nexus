@@ -22,3 +22,8 @@ export interface ResetPasswordData {
   token: string;
   newPassword: string;
 }
+
+export interface OAuthSignInData {
+  provider: string;
+  code: string;
+}

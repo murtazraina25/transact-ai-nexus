@@ -1,30 +1,78 @@
+import { notifySuccess, notifyError } from '@/lib/utils';
+import { oAuthSignIn } from '@/services/authentication/auth';
+import { OAuthSignInData } from '@/types/models/auth';
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const OAuthGoogleCallback = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const code = searchParams.get('code');
+  //     const error = searchParams.get('error');
+  //     const description = searchParams.get('error_description');
+
+  //     if (error) {
+  //       notifyError({ message: `OAuth Error: ${description || error}` });
+  //       return;
+  //     }
+
+  //     if (!code) {
+  //       notifyError({ message: "Missing code in callback URL" });
+  //       return;
+  //     }
+
+  //     try {
+  //       const googlePayload: OAuthSignInData = {
+  //         provider: 'google',
+  //         code,
+  //       };
+
+  //       const response = await oAuthSignIn(googlePayload);
+  //       notifySuccess("Login successful");
+  //       console.log("OAuth login success:", response);
+  //       navigate("/dashboard");
+  //     } catch (err: any) {
+  //       notifyError({ message: "OAuth sign-in failed. Please try again." });
+  //       navigate("/");
+  //     }
+  //   })();
+  // }, [searchParams, navigate]);
 
   useEffect(() => {
-  const code = searchParams.get('code');
-  const error = searchParams.get('error');
-  const description = searchParams.get('error_description');
+    const code = searchParams.get('code');
+    const error = searchParams.get('error');
+    const description = searchParams.get('error_description');
 
-  if (error) {
-    console.error('OAuth Error:', error, description);
-    return;
-  }
+    if (error) {
+      window.opener?.postMessage({ type: 'oauth-error', error: description }, window.origin);
+      window.close();
+      return;
+    }
 
-  const googlePayload = {
-    provider: 'google',
-    code: code,
-  }
-  console.log('Google OAuth Payload:', googlePayload);
-}, [searchParams]);
+    const googlePayload: OAuthSignInData = {
+      provider: 'google',
+      code: code!,
+    };
+
+    oAuthSignIn(googlePayload)
+      .then(() => {
+        window.opener?.postMessage({ type: 'oauth-success' }, window.origin);
+        window.close(); // Close popup
+      })
+      .catch((err) => {
+        window.opener?.postMessage({ type: 'oauth-error', error: err.message }, window.origin);
+        window.close();
+      });
+  }, []);
 
 
   return (
-    <div>
-      <h2>Authenticating via Google...</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#101322] text-white">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-6"></div>
+      <p className="text-lg text-gray-300">Authenticating with Google...</p>
     </div>
   );
 };

@@ -116,7 +116,7 @@ export const navItems = [
     auth: false
   },
   {
-    to: "/oauth/microsoft",
+    to: "/oauth/microsoft/callback",
     page: <OAuthMicrosoftCallback />,
     auth: false
   },

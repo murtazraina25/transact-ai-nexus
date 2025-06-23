@@ -36,10 +36,27 @@ const OAuthButton = ({ provider }: { provider: 'google' | 'github' | 'microsoft'
     return url;
   };
 
+  // const handleClick = async () => {
+  //   const url = await getOAuthUrl();
+  //   window.location.href = url;
+  // };
+
   const handleClick = async () => {
     const url = await getOAuthUrl();
-    window.location.href = url;
+  
+    const popup = window.open(
+      url,
+      'OAuthLogin',
+      'width=500,height=600'
+    );
+  
+    const timer = setInterval(() => {
+      if (popup?.closed) {
+        clearInterval(timer);
+      }
+    }, 1000);
   };
+
 
   const icons = {
     google: <FaGoogle />,

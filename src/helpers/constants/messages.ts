@@ -1,7 +1,7 @@
 export const TOASTER_MESSAGES = {
   LOGIN_SUCCESS: 'Logged in successfully',
   LOGOUT_SUCCESS: 'Logged out successfully',
-  UNAUTHORIZED: 'Sorry, You are not authorized to look into this page',
+  UNAUTHORIZED: 'Sorry, You are not authorized',
 };
 
 export const PASSWORD_VALIDATION_MESSAGES = {

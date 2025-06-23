@@ -20,7 +20,7 @@ axiosInstance.interceptors.response.use(
         return Promise.reject({
           errorList: [],
           statusCode: null,
-          message: "Network error. Please;;; try again.",
+          message: "Network error. Please try again.",
         });
     }
 
