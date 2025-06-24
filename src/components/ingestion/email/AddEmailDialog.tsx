@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ExternalLink } from "lucide-react"
-import { ImapForm } from "./IMAPForm"
+import { ImapForm } from "./ImapForm"
 import { generateOAuthUrl } from "@/lib/oauth-config"
 import { useToast } from "@/hooks/use-toast"
 
@@ -69,12 +69,7 @@ export function AddEmailDialog({ open, onOpenChange }: AddEmailDialogProps) {
           sm:max-w-2xl
           max-h-[85vh]
           overflow-y-auto
-          scrollbar             /* Enables custom styling */
-          scrollbar-thumb-gray-400 /* Color of the scrollbar thumb */
-          scrollbar-track-gray-200 /* Color of the scrollbar track */
-          scrollbar-thin          /* Makes the scrollbar thinner */
-          dark:scrollbar-thumb-gray-600 /* Dark mode thumb color */
-          dark:scrollbar-track-gray-800 /* Dark mode track color */
+          scrollbar
         "
       >
         <DialogHeader>

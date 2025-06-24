@@ -1,4 +1,4 @@
-import { FaGithub, FaGoogle, FaMicrosoft  } from 'react-icons/fa';
+import { FaGithub, FaGoogle, FaMicrosoft } from 'react-icons/fa';
 import { GITHUB_CLIENT_ID, GOOGLE_CLIENT_ID, MICROSOFT_CLIENT_ID } from "@/environments/environments";
 import { generatePKCECodes } from "@/utils/pkce";
 
