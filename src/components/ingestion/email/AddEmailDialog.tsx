@@ -66,10 +66,15 @@ export function AddEmailDialog({ open, onOpenChange }: AddEmailDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent 
        className="
-          sm:max-w-2xl
-          max-h-[85vh]
-          overflow-y-auto
-          scrollbar
+         w-full 
+         max-w-[90vw] 
+         sm:max-w-2xl 
+         max-h-[90vh] 
+         overflow-y-auto 
+         scrollbar 
+         px-4 
+         py-6
+         mx-auto
         "
       >
         <DialogHeader>
@@ -89,7 +94,7 @@ export function AddEmailDialog({ open, onOpenChange }: AddEmailDialogProps) {
             <ImapForm onSubmit={handleImapSubmit} onCancel={handleImapCancel} />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
             {emailProviders.map((provider) => (
               <Card key={provider.id} className="cursor-pointer hover:shadow-md transition-shadow">
                 <CardHeader className="pb-3">

@@ -2,7 +2,7 @@ import { FaGithub, FaGoogle, FaMicrosoft } from 'react-icons/fa';
 import { GITHUB_CLIENT_ID, GOOGLE_CLIENT_ID, MICROSOFT_CLIENT_ID } from "@/environments/environments";
 import { generatePKCECodes } from "@/utils/pkce";
 
-const OAuthButton = ({ provider }: { provider: 'google' | 'github' | 'microsoft' }) => {
+const OAuthButton = ({ provider }: { provider: 'google' | 'microsoft' }) => {
   const getOAuthUrl = async () => {
     const base = {
       google: 'https://accounts.google.com/o/oauth2/v2/auth',

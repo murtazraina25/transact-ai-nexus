@@ -1,6 +1,6 @@
 export const REGEX_PATTERNS = {
   NAME: /^[a-zA-Z\s-]+$/,
-  EMAIL: /^[a-z0-9.]+@[a-z]+\.[a-z]{2,5}$/,
+  EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 };
 
 export const PASSWORD_REGEX_PATTERNS = {

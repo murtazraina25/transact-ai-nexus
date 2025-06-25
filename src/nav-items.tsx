@@ -111,11 +111,11 @@ export const navItems = [
     page: <OAuthGoogleCallback />,
     auth: false
   },
-  {
-    to: "/oauth/github/callback",
-    page: <OAuthGithubCallback/>,
-    auth: false
-  },
+  // {
+  //   to: "/oauth/github/callback",
+  //   page: <OAuthGithubCallback/>,
+  //   auth: false
+  // },
   {
     to: "/oauth/microsoft/callback",
     page: <OAuthMicrosoftCallback />,
