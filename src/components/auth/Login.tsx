@@ -148,9 +148,9 @@ const Login = () => {
         navigate('/login', { replace: true });
       }
     } catch (error: any) {
-      console.error(`${formMode} error:`, error);
+      // console.error(`${formMode} error:`, error);
       notifyError({
-        message: error.message || `${formMode === 'signup' ? "Signup" : formMode === 'login' ? "Login" : formMode === 'forgotPasswordRequest' ? "Password reset request" : "Password reset"} failed. Please try again.`,
+        message: `${formMode === 'signup' ? "Signup" : formMode === 'login' ? "Login" : formMode === 'forgotPasswordRequest' ? "Password reset request" : "Password reset"} failed. Please try again.`,
       });
     } finally {
       setIsSubmitting(false);

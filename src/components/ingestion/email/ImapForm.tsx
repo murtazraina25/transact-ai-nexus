@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator"
 import { connectCustomEmail } from "@/services/email-connect/customEmail"
 import { notifyError, notifySuccess } from "@/lib/utils"
 import { REGEX_PATTERNS } from "@/helpers/constants/regexPatterns"
+import { AuthState } from "@/types/models/auth"
+import { RootState, useAppSelector } from "@/state-management/store"
 
 interface ImapFormData {
   email: string
@@ -45,6 +47,8 @@ export function ImapForm({ onSubmit, onCancel }: ImapFormProps) {
     },
   })
 
+  const userDetails: AuthState = useAppSelector((state: RootState) => state.auth);
+
   const email = watch("email")
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +77,7 @@ export function ImapForm({ onSubmit, onCancel }: ImapFormProps) {
     notifySuccess("Adding connections...");
 
     const response = await connectCustomEmail({
+      // user_id: userDetails.email,
       email: data.email,
       password: data.password,
       imap: data.imap,
