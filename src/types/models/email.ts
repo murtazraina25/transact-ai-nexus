@@ -11,7 +11,6 @@ export interface SmtpSettings {
 }
 
 export interface CustomEmailPayload {
-  // user_id: string;
   email: string;
   password: string;
   imap: ImapSettings;

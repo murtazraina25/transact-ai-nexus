@@ -77,7 +77,6 @@ export function ImapForm({ onSubmit, onCancel }: ImapFormProps) {
     notifySuccess("Adding connections...");
 
     const response = await connectCustomEmail({
-      // user_id: userDetails.email,
       email: data.email,
       password: data.password,
       imap: data.imap,
