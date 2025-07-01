@@ -4,5 +4,6 @@ export const API_END_POINTS = {
   logout: '/logout',
   oauthSignIn: '/oauth',
   connectCustomEmail: '/api/email/connect',
+  connectOAuthEmail: '/api/email/oauth/connect',
   configureEmailSync: '/api/sync/email',
 }

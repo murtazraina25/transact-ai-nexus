@@ -1,9 +1,9 @@
 const devEnv = {
-  baseURL: 'https://6cea-106-51-51-220.ngrok-free.app',
+  baseURL: 'http://localhost:8004',
 };
 
 const prodEnv = {
-    baseURL: 'https://6cea-106-51-51-220.ngrok-free.app',
+    baseURL: 'http://localhost:8004',
 };
 
 export const MICROSOFT_CLIENT_ID = '4d1cc203-c773-471f-87c7-e76a2f19787e';

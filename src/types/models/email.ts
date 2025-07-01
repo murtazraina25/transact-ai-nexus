@@ -18,9 +18,15 @@ export interface CustomEmailPayload {
 }
 
 export interface SyncSettingsPayload {
-  email_id: string;
+  email: string;
   auto_sync: boolean;
   email_folders: string[];
   email_documents: string[];
   sync_interval: number;
+}
+
+export interface OAuthEmailPayload {
+  provider: string;
+  code: string;
+  code_verifier?: string;
 }

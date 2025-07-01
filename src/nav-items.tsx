@@ -20,6 +20,7 @@ import OAuthMicrosoftCallback from "./components/auth/OAuthMicrosoftCallback";
 import LoginForm from "./components/auth/LoginForm";
 import Login from "./components/auth/Login";
 import OAuthGmailCallback from "./components/ingestion/email/OAuthGmailCallback";
+import OAuthOutlookCallback from "./components/ingestion/email/OAuthOutlookCallback";
 
 export const navItems = [
   {
@@ -124,6 +125,11 @@ export const navItems = [
   {
     to: "/oauth/gmail/callback",
     page: <OAuthGmailCallback/>,
+    auth: true
+  },
+    {
+    to: "/oauth/outlook/callback",
+    page: <OAuthOutlookCallback/>,
     auth: true
   },
   {

@@ -262,6 +262,7 @@ import { Switch } from "@/components/ui/switch"
 import { useEffect } from "react"
 import { configureEmailSync } from "@/services/email-connect/customEmail"
 import { notifyError, notifySuccess } from "@/lib/utils"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface EmailSyncDialogProps {
   open: boolean
@@ -281,6 +282,16 @@ const documentTypes = [
   { id: "po", name: "Purchase Order" },
   { id: "receipt", name: "Receipt" },
 ] as const
+
+const syncIntervalOptions = [
+  { value: 15, label: "Every 15 minutes" },
+  { value: 30, label: "Every 30 minutes" },
+  { value: 60, label: "Every hour" },
+  { value: 360, label: "Every 6 hours" },
+  { value: 720, label: "Every 12 hours" },
+  { value: 1440, label: "Daily" },
+]
+
 
 type FolderId = typeof folders[number]["id"]
 type DocTypeId = typeof documentTypes[number]["id"]
@@ -320,6 +331,8 @@ export function EmailSyncDialog({
       },
     },
   })
+
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     if (!open || !account) return
@@ -363,7 +376,7 @@ export function EmailSyncDialog({
       .map(([k]) => k)
 
     const finalPayload = {
-      email_id: account.email,
+      email: account.email,
       auto_sync: data.autoSync,
       sync_interval: parseInt(data.syncInterval.toString(), 10),
       email_folders: selectedFolders,
@@ -372,12 +385,13 @@ export function EmailSyncDialog({
 
     try {
       await configureEmailSync(finalPayload)
+      queryClient.invalidateQueries({ queryKey: ["connectedEmails"] });
       notifySuccess("Sync configuration saved successfully!")
       onOpenChange(false)
     } catch (error: any) {
       notifyError({
         message:
-          error?.message ||
+          error?.message?.message  ||
           "Please check your credentials and server settings",
       })
     }
@@ -430,12 +444,11 @@ export function EmailSyncDialog({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="15">Every 15 minutes</SelectItem>
-                      <SelectItem value="30">Every 30 minutes</SelectItem>
-                      <SelectItem value="1">Every hour</SelectItem>
-                      <SelectItem value="6">Every 6 hours</SelectItem>
-                      <SelectItem value="12">Every 12 hours</SelectItem>
-                      <SelectItem value="24">Daily</SelectItem>
+                      {syncIntervalOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value.toString()}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 )}

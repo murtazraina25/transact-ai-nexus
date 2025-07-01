@@ -7,6 +7,8 @@ export interface OAuthProvider {
   authUrl: string
   scope: string
   redirectUri: string
+  access_type?: string // Optional for Google OAuth
+  prompt?: string // Optional for Google OAuth
 }
 
 const getRedirectUri = (provider: string) => {
@@ -21,8 +23,10 @@ export const oauthProviders: Record<string, OAuthProvider> = {
     name: "GMAIL",
     clientId: GOOGLE_CLIENT_ID,
     authUrl: "https://accounts.google.com/o/oauth2/v2/auth",
-    scope: "https://www.googleapis.com/auth/gmail.readonly",
+    scope: "openid email profile https://www.googleapis.com/auth/gmail.readonly",
     redirectUri: getRedirectUri("gmail"),
+    access_type: 'offline',
+    prompt: 'consent'
   },
   outlook: {
     name: "OUTLOOK",
@@ -47,6 +51,11 @@ export async function generateOAuthUrl(provider: string): Promise<string> {
 
       url += `&code_challenge=${codeChallenge}&code_challenge_method=S256`;
     }
+
+    if (provider === 'gmail') {
+      url += `&access_type=${config.access_type ?? 'offline'}`;
+      url += `&prompt=${config.prompt ?? 'consent'}`;
+  }
 
     return url;
 }

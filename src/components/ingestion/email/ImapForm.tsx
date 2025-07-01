@@ -11,6 +11,8 @@ import { notifyError, notifySuccess } from "@/lib/utils"
 import { REGEX_PATTERNS } from "@/helpers/constants/regexPatterns"
 import { AuthState } from "@/types/models/auth"
 import { RootState, useAppSelector } from "@/state-management/store"
+import { useQueryClient } from "@tanstack/react-query";
+
 
 interface ImapFormData {
   email: string
@@ -48,6 +50,8 @@ export function ImapForm({ onSubmit, onCancel }: ImapFormProps) {
   })
 
   const userDetails: AuthState = useAppSelector((state: RootState) => state.auth);
+  const queryClient = useQueryClient();
+
 
   const email = watch("email")
 
@@ -84,11 +88,13 @@ export function ImapForm({ onSubmit, onCancel }: ImapFormProps) {
     });
 
     notifySuccess(`Successfully connected to ${data.email} (IMAP + SMTP)`);
+    queryClient.invalidateQueries({ queryKey: ["connectedEmails"] });
     onSubmit(data);
   } catch (error: any) {
+    console.error("Error connecting email:", error);
     notifyError({
       message:
-        error?.message ||
+        error?.message?.message ||
         "Please check your credentials and server settings",
     });
   }

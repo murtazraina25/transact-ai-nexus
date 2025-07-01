@@ -2,7 +2,7 @@ import { connectOAuthEmail } from "@/services/email-connect/oauthEmail";
 import { useEffect, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
-const OAuthGmailCallback = () => {
+const OAuthOutlookCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -25,12 +25,12 @@ useEffect(() => {
     return;
   }
 
-  const gmailPayload = {
-    provider: "gmail",
+  const outlookPayload = {
+    provider: "outlook",
     code: code!,
   };
 
-  connectOAuthEmail(gmailPayload)
+  connectOAuthEmail(outlookPayload)
     .then(() => {
       window.opener?.postMessage({ type: "oauth-success" }, window.origin);
       window.close();
@@ -44,44 +44,6 @@ useEffect(() => {
     });
 }, []);
 
-
-  // useEffect(() => {
-  //   const code = searchParams.get("code");
-  //   const error = searchParams.get("error");
-  //   const description = searchParams.get("error_description");
-
-  //   if (error) {
-  //     window.opener?.postMessage(
-  //       { type: "oauth-error", error: description },
-  //       window.origin
-  //     );
-  //     window.close();
-  //     return;
-  //   }
-
-  //   const gmailPayload = {
-  //     provider: "gmail",
-  //     code: code!,
-  //   };
-
-  //   connectOAuthEmail(gmailPayload)
-  //     .then(() => {
-  //       window.opener?.postMessage({ type: "oauth-success" }, window.origin);
-  //       window.close(); // Close popup
-  //     })
-  //     .catch((err) => {
-  //       alert("Error connecting Gmail: " + JSON.stringify(err));
-  //       window.opener?.postMessage(
-  //         { type: "oauth-error", error: err.message },
-  //         window.origin
-  //       );
-  //       window.close();
-  //     });
-
-  //   // window.opener?.postMessage({ type: 'oauth-success' }, window.origin);
-  //   // window.close(); // Close popup
-  // }, []);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#101322] text-white">
       <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-6"></div>
@@ -90,4 +52,4 @@ useEffect(() => {
   );
 };
 
-export default OAuthGmailCallback;
+export default OAuthOutlookCallback;
