@@ -21,7 +21,7 @@ const OAuthButton = ({ provider }: { provider: 'google' | 'microsoft' }) => {
     const scopes = {
       google: 'openid email profile',
       github: 'read:user user:email',
-      microsoft: 'openid profile offline_access Files.ReadWrite',
+      microsoft: 'openid profile offline_access https://graph.microsoft.com/User.Read',
     };
 
     let url = `${base[provider]}?client_id=${clientId[provider]}&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(scopes[provider])}`;

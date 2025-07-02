@@ -5,3 +5,6 @@ export const getConnectedEmails = async () => {
     // /${encodeURIComponent(email)}`);
 };
 
+export const getFetchedDocumentsPerEmail = async (email: string) =>{
+ return axiosInstance.post(`/api/email/documents/${encodeURIComponent(email)}`);
+}

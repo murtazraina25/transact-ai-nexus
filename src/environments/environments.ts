@@ -6,7 +6,7 @@ const prodEnv = {
     baseURL: 'http://localhost:8004',
 };
 
-export const MICROSOFT_CLIENT_ID = '4d1cc203-c773-471f-87c7-e76a2f19787e';
+export const MICROSOFT_CLIENT_ID = 'c51d09d3-4157-4989-88a6-c830ff0b44c0';
 
 export const GOOGLE_CLIENT_ID =
   '1093179039078-64o3n19idlmh5mkrh61mo4ihsjpm9pdh.apps.googleusercontent.com';

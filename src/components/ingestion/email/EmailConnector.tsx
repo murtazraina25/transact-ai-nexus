@@ -10,43 +10,93 @@ import { getConnectedEmails } from "@/services/email-connect/email"
 import { RootState, useAppSelector } from "@/state-management/store"
 import { AuthState } from "@/types/models/auth"
 import { useQuery, UseQueryOptions } from "@tanstack/react-query"
+import { FetchedDocumentsTable } from "./FetchedDocuments"
+import { EmailAccount } from "@/types/models/email"
 
-interface EmailAccount {
-  id: string
-  provider: string
-  email: string
-  status: "connected" | "error" | "syncing"
-  lastSync?: Date
-  syncInterval: number
-  enabledFolders: string[]
-  enabledDocuments: string[]
-  autoSync: boolean
-}
-
-const mockAccounts: EmailAccount[] = [
+export const mockAccounts: EmailAccount[] = [
+  {
+    id: "mock-1",
+    provider: "custom",
+    email: "billdeskyavartst@gmail.com",
+    email_id:'sxcsdccdcdc',
+    status: "connected",
+    lastSync: new Date("2025-07-01T09:51:54.892857"),
+    syncInterval: 45,
+    enabledFolders: ["INBOX"],
+    enabledDocuments: ["pdf"],
+    autoSync: true,
+    records: [
       {
-        id: "mock-1",
-        provider: "custom",
-        email: "mockuser@example.com",
-        status: "connected",
-        lastSync: new Date(Date.now() - 1000 * 60 * 30), // 30 mins ago
-        syncInterval: 15,
-        enabledFolders: ["inbox", "sent"],
-        enabledDocuments: ["invoice", "receipt"],
-        autoSync: true,
+        email_uid: "5",
+        file_name: "1.pdf",
+        file_path: "Output/imthi_at_example_com_20250701091043_1.pdf",
+        sender_id_name: "joymerlin sathiyamoorthy <joymerlinsathiyamoorthy@gmail.com>",
+        received_date_time: "2025-06-13T10:01:17",
+        subject: "Bank_Statement",
+        doc_type: "Unclassified",
       },
       {
-        id: "mock-2",
-        provider: "gmail",
-        email: "demo@gmail.com",
-        status: "syncing",
-        lastSync: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
-        syncInterval: 1,
-        enabledFolders: ["inbox"],
-        enabledDocuments: ["po"],
-        autoSync: false,
+        email_uid: "14",
+        file_name: "PO_25260185_PEOPLELINK.pdf",
+        file_path: "Output/imthi_at_example_com_20250701091044_PO_25260185_PEOPLELINK.pdf",
+        sender_id_name: "Mohamed Imthiyas <Imthiyas@archeglobal.onmicrosoft.com>",
+        received_date_time: "2025-07-01T10:09:00",
+        subject: "",
+        doc_type: "Unclassified",
       },
-    ];
+      {
+        email_uid: "5",
+        file_name: "1.pdf",
+        file_path: "Output/imthi_at_example_com_20250701091304_1.pdf",
+        sender_id_name: "joymerlin sathiyamoorthy <joymerlinsathiyamoorthy@gmail.com>",
+        received_date_time: "2025-06-13T10:01:17",
+        subject: "Bank_Statement",
+        doc_type: "Unclassified",
+      },
+      {
+        email_uid: "5",
+        file_name: "1.pdf",
+        file_path: "/home/yavar/3-way-mapping/app/data_store/raw_store_1/imthi_at_example_com_20250701091431_1.pdf",
+        sender_id_name: "joymerlin sathiyamoorthy <joymerlinsathiyamoorthy@gmail.com>",
+        received_date_time: "2025-06-13T10:01:17",
+        subject: "Bank_Statement",
+        doc_type: "Unclassified",
+      },
+    ],
+  },
+  {
+    id: "mock-2",
+    provider: "custom",
+    email_id:'sxdcdvdfrfgv',
+    email: "skavinya14@gmail.com",
+    status: "connected",
+    lastSync: new Date("2025-07-01T13:10:43.502507"),
+    syncInterval: 15,
+    enabledFolders: ["inbox"],
+    enabledDocuments: ["pdf"],
+    autoSync: true,
+    records: [
+      {
+        email_uid: "1390",
+        file_name: "2526PSI25000169_040125 (2).PDF",
+        file_path: "/home/yavar/3-way-mapping/app/data_store/raw_store_1/imthi_at_example_com_20250701125420_2526PSI25000169_040125 (2).PDF",
+        sender_id_name: "joymerlin sathiyamoorthy <joymerlinsathiyamoorthy@gmail.com>",
+        received_date_time: "2025-07-01T18:23:48",
+        subject: "ABC",
+        doc_type: "Unclassified",
+      },
+      {
+        email_uid: "1393",
+        file_name: "demo.PDF",
+        file_path: "/home/yavar/3-way-mapping/app/data_store/raw_store_1/imthi_at_example_com_20250701131042_demo.PDF",
+        sender_id_name: "joymerlin sathiyamoorthy <joymerlinsathiyamoorthy@gmail.com>",
+        received_date_time: "2025-07-01T18:33:29",
+        subject: "bcd",
+        doc_type: "Unclassified",
+      },
+    ],
+  },
+];
 
 export default function EmailConnector() {
   // const [accounts, setAccounts] = useState<EmailAccount[]>([])
@@ -66,7 +116,7 @@ export default function EmailConnector() {
     queryKey: ["connectedEmails"],
     queryFn: async (): Promise<EmailAccount[]> => {
       const response = await getConnectedEmails();
-      return response.data.map((item: any) => ({
+      return response.data.map((item: EmailAccount) => ({
         id: item.email_id,
         provider: item.provider,
         email: item.email,
@@ -76,6 +126,7 @@ export default function EmailConnector() {
         enabledFolders: item.enabledFolders || [],
         enabledDocuments: item.enabledDocuments || [],
         autoSync: item.autoSync ?? true,
+        records: item.records ?? [],
       }));
     },
   });
@@ -197,7 +248,7 @@ export default function EmailConnector() {
                 }`}
                 onClick={() => setSelectedAccount(account)}
               >
-                <div className="font-medium">{account.email}</div>
+                <div className="font-small">{account.email}</div>
                 <div className={`text-xs ${getStatusColor(account.status)}`}>
                   {account.status}
                 </div>
@@ -261,7 +312,7 @@ export default function EmailConnector() {
                 <CardTitle>Fetched Documents</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">No documents fetched yet.</p>
+                <FetchedDocumentsTable account={selectedAccount} />
               </CardContent>
             </Card>
           </div>

@@ -32,7 +32,7 @@ export const oauthProviders: Record<string, OAuthProvider> = {
     name: "OUTLOOK",
     clientId: MICROSOFT_CLIENT_ID,
     authUrl: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
-    scope: "https://graph.microsoft.com/Mail.Read",
+    scope: "openid profile offline_access https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Read ",
     redirectUri: getRedirectUri("outlook"),
   }
 }
