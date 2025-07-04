@@ -10,6 +10,6 @@ export const configureEmailSync = (payload: SyncSettingsPayload) => {
   return axiosInstance.post(API_END_POINTS.configureEmailSync, payload);
 };
 
-export const syncCustomEmailNow = (emailId: string) => {
-  return axiosInstance.post(`/api/sync/run/${encodeURIComponent(emailId)}`);
+export const syncCustomEmailNow = (email: string) => {
+  return axiosInstance.post(`/api/sync/run/${encodeURIComponent(email)}`);
 };

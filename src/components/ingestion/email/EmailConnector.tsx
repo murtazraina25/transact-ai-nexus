@@ -2,16 +2,18 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Plus, Trash2, Settings } from "lucide-react"
+import { Plus, Trash2, Settings, FolderSync } from "lucide-react"
 import { AddEmailDialog } from "./AddEmailDialog"
 import { EmailSyncDialog } from "./EmailSyncDialog"
 import { notifyError, notifySuccess } from "@/lib/utils"
 import { getConnectedEmails } from "@/services/email-connect/email"
 import { RootState, useAppSelector } from "@/state-management/store"
 import { AuthState } from "@/types/models/auth"
-import { useQuery, UseQueryOptions } from "@tanstack/react-query"
+import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query"
 import { FetchedDocumentsTable } from "./FetchedDocuments"
 import { EmailAccount } from "@/types/models/email"
+import { syncOauthEmailNow } from "@/services/email-connect/oauthEmail"
+import { syncCustomEmailNow } from "@/services/email-connect/customEmail"
 
 export const mockAccounts: EmailAccount[] = [
   {
@@ -105,6 +107,7 @@ export default function EmailConnector() {
   const [showSyncDialog, setShowSyncDialog] = useState(false)
   const userDetails: AuthState = useAppSelector((state: RootState) => state.auth)
   const { email } = userDetails
+  const queryClient = useQueryClient();
 
   const {
     data: accounts=[],
@@ -116,6 +119,7 @@ export default function EmailConnector() {
     queryKey: ["connectedEmails"],
     queryFn: async (): Promise<EmailAccount[]> => {
       const response = await getConnectedEmails();
+      // return mockAccounts;
       return response.data.map((item: EmailAccount) => ({
         id: item.email_id,
         provider: item.provider,
@@ -228,6 +232,26 @@ export default function EmailConnector() {
     setSelectedAccount(updated[0] || null);
   };
 
+  const handleSync = (selectedAccount:EmailAccount) =>{
+    console.log(selectedAccount)
+    if(selectedAccount.provider === "gmail" || selectedAccount.provider === "outlook" ){
+      syncOauthEmailNow(selectedAccount.email).then(()=>{
+        notifySuccess("Sync Completed")
+        queryClient.invalidateQueries({ queryKey: ["connectedEmails"] });
+      }).catch((err)=>{
+        notifyError({ message: "Sync Failed" });
+      })
+    }
+    else if(selectedAccount.provider === 'custom'){
+      syncCustomEmailNow(selectedAccount.email).then(()=>{
+        notifySuccess("Sync Completed")
+        queryClient.invalidateQueries({ queryKey: ["connectedEmails"] });
+      }).catch((err)=>{
+        notifyError({ message: "Sync Failed" });
+      })
+    }
+  }
+
   return (
     <div className="flex flex-col md:flex-row h-[calc(100vh-100px)] gap-4">
       {/* Sidebar */}
@@ -272,6 +296,9 @@ export default function EmailConnector() {
               <div className="flex gap-2">
                 <Button size="sm" onClick={() => setShowSyncDialog(true)}>
                   <Settings className="h-4 w-4 mr-1" /> Configure
+                </Button>
+                <Button size="sm" onClick={()=> handleSync(selectedAccount)}>
+                  <FolderSync className="h-4 w-4 mr-1" /> Sync Now
                 </Button>
                 <Button
                   variant="outline"

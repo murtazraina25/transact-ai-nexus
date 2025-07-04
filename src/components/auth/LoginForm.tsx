@@ -362,7 +362,6 @@ const LoginForm = () => {
                 </div>
                 <div className="flex gap-4 justify-center">
                   <OAuthButton provider="google" />
-                  <OAuthButton provider="github" />
                   <OAuthButton provider="microsoft" />
                 </div>
               </div>
